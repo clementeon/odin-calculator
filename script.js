@@ -1,7 +1,8 @@
-let num1 = ``;
-let num2 = ``;
-let operator = ``;
-
+const values = {
+    num1,
+    num2,
+    operator,
+}
 const add = function(a, b) {
     return a + b;
 }
@@ -32,3 +33,5 @@ const operate = function(a, b, method) {
         divide(a, b);
     }
 }
+
+
