@@ -6,7 +6,7 @@
 body {
     display: flex;
     justify-content: center;
-    background-color: #989898;
+    background-color: #EDE8D0;
 }
 .calculator {
     /*width: 430px;*/
@@ -59,8 +59,12 @@ body {
 
 }
 
-.zero {
+.backspace img{
+    width: 100%;
+}
+.fifthRow .number {
     border-bottom-left-radius: 10px;
+    width: 200px;
 }
 
 .equals {
@@ -73,10 +77,6 @@ body {
 
 .buttons .equals {
     background-color: #7951A8;
-}
-
-.fifthRow .zero {
-    width: 200px;
 }
 
 .firstRow,
