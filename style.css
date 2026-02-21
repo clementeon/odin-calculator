@@ -29,7 +29,7 @@ body {
     background-color: #232323;
 }
 
-.numLog {
+#numLog {
     height: 100px;
     width: auto;
     display: flex;
@@ -37,7 +37,7 @@ body {
     margin-right: 10px;
 }
 
-.answer {
+#answer {
     height: 100px;
     width: auto;
     display: flex;
@@ -67,7 +67,7 @@ body {
     width: 200px;
 }
 
-.equals {
+#equals {
     border-bottom-right-radius: 10px;
 }
 
@@ -75,7 +75,7 @@ body {
     background-color: #69369E;
 }
 
-.buttons .equals {
+.buttons #equals {
     background-color: #7951A8;
 }
 

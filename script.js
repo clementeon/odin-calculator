@@ -1,73 +1,119 @@
 const display = {
-    num1: 0,
-    num2: 1,
-    operator: 2 ,
-    decimalAvailable: true,
-}
+	mainDisplay: document.getElementById("answer"),
+	smallDisplay: document.getElementById("numLog"),
+};
+
+const equation = {
+	current: ``,
+	prev: ``,
+	operator: ``,
+	equals: ``,
+};
 
 const values = {
-    one: 1,
-    two: 2,
-    three: 3,
-    four: 4,
-    five: 5,
-    six: 6,
-    seven: 7,
-    eight: 8,
-    nine: 9,
-    zero: 0,
-    decimal: ".",
-    equals: "=",
-    clear : "clear",
-    clearAll: "clearAll",
-    backspace: "backspace",
-    plus: "+",
-    minus: "-",
-    times: "x",
-    divide: "/",   
+	one: 1,
+	two: 2,
+	three: 3,
+	four: 4,
+	five: 5,
+	six: 6,
+	seven: 7,
+	eight: 8,
+	nine: 9,
+	zero: 0,
+	decimal: ".",
+	equals: "=",
+	plus: "+",
+	minus: "-",
+	times: "x",
+	divide: "/",
+};
+
+const buttons = document.querySelectorAll("button");
+const methods = [...document.querySelectorAll(".method")].map(
+	(val) => val.innerText,
+);
+
+const add = function (a, b) {
+	return a + b;
+};
+
+const minus = function (a, b) {
+	return a - b;
+};
+
+const times = function (a, b) {
+	return a * b;
+};
+
+const divide = function (a, b) {
+	if (b == 0) {
+		return "error";
+	}
+	return a / b;
+};
+
+const operatorFunction = {
+	"+": (a, b) => add(a, b),
+	"-": (a, b) => minus(a, b),
+	x: (a, b) => times(a, b),
+	"/": (a, b) => divide(a, b),
+};
+
+//operatorFunction['+'](a, b) => ...
+
+function clearVals() {
+	equation.current = ``;
+	equation.prev = ``;
+	equation.operator = ``;
+	equation.equals = ``;
+	equation.answer = ``;
 }
+buttons.forEach((button) => {
+	button.addEventListener("click", () => {
+		temp = button.id;
+		console.log(temp);
+		console.log(values[temp]);
+		console.log(methods.includes(values[temp]));
+		console.log(equation.operator == "");
 
-const buttons = document.querySelectorAll('button');
-const numLog = document.querySelector('numLog');
-const answer = document.querySelector('answer');
+		if (temp == "clear") {
+			clearVals();
+		} else if (temp == "clearAll") {
+			display.smallDisplay.innerText = ``;
+			clearVals();
+		} else if (methods.includes(values[temp])) {
+			if (equation.operator == ``) {
+				equation.operator = values[temp];
+				equation.prev = equation.current;
+				equation.current = ``;
+			} else {
+				equation.operator = values[temp];
+				equation.equals = "=";
+				equation.prev = String(
+					operatorFunction[equation.operator](
+						parseFloat(equation.prev),
+						parseFloat(equation.current),
+					),
+				);
+				equation.current = ``;
+			}
+		} else if (temp === "decimal" && equation.current.includes(".")) {
+			return;
+		} else if (typeof values[temp] === "number" || temp === "decimal") {
+			equation.current += String(values[temp]);
+		} else if (temp == "equals") {
+			equation.equals = `=`;
+		}
 
-const add = function(a, b) {
-    return a + b;
-}
-
-const subtract = function(a ,b) {
-    return a - b;
-}
-
-const multipy = function(a, b) {
-    return a * b;
-}
-
-const divide = function(a, b) {
-    if (b == 0) {
-        return Error;
-    }
-    return a / b;
-}
-
-const operate = function(a, b, method) {
-    if (method == "+") {
-        add(a, b);
-    } else if (method == "-") {
-        subtract(a, b);
-    } else if (method =="x") {
-        multipy(a, b);
-    } else if(method == "/") {
-        divide(a, b);
-    }
-}
-
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        temp = values[button.id]
-        console.log(button.id);
-        console.log(typeof(temp));
-    })
-})
-
-
+		if (equation.equals == ``) {
+			display.mainDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current}`;
+		} else if (temp == "equals") {
+			display.smallDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current} =`;
+			display.mainDisplay.innerText = `${operatorFunction[equation.operator](parseFloat(equation.prev), parseFloat(equation.current))}`;
+		} else {
+			display.smallDisplay.innerText = `${equation.prev} ${equation.operator} `;
+			display.mainDisplay.innerText = `${equation.current}`;
+		}
+	});
+});
