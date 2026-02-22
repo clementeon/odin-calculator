@@ -67,15 +67,12 @@ function clearVals() {
 	equation.prev = ``;
 	equation.operator = ``;
 	equation.equals = ``;
-	equation.answer = ``;
 }
 buttons.forEach((button) => {
 	button.addEventListener("click", () => {
 		temp = button.id;
 		console.log(temp);
 		console.log(values[temp]);
-		console.log(methods.includes(values[temp]));
-		console.log(equation.operator == "");
 
 		if (temp == "clear") {
 			clearVals();
@@ -88,14 +85,14 @@ buttons.forEach((button) => {
 				equation.prev = equation.current;
 				equation.current = ``;
 			} else {
-				equation.operator = values[temp];
-				equation.equals = "=";
 				equation.prev = String(
 					operatorFunction[equation.operator](
 						parseFloat(equation.prev),
 						parseFloat(equation.current),
 					),
 				);
+
+				equation.operator = values[temp];
 				equation.current = ``;
 			}
 		} else if (temp === "decimal" && equation.current.includes(".")) {
@@ -109,8 +106,11 @@ buttons.forEach((button) => {
 		if (equation.equals == ``) {
 			display.mainDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current}`;
 		} else if (temp == "equals") {
+			let sol = operatorFunction[equation.operator](parseFloat(equation.prev), parseFloat(equation.current));
 			display.smallDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current} =`;
-			display.mainDisplay.innerText = `${operatorFunction[equation.operator](parseFloat(equation.prev), parseFloat(equation.current))}`;
+			display.mainDisplay.innerText = `${sol}`
+			equation.current = sol;
+			equation.operator = ``;
 		} else {
 			display.smallDisplay.innerText = `${equation.prev} ${equation.operator} `;
 			display.mainDisplay.innerText = `${equation.current}`;
