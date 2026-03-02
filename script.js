@@ -101,14 +101,19 @@ buttons.forEach((button) => {
 			equation.current += String(values[temp]);
 		} else if (temp == "equals") {
 			equation.equals = `=`;
+		} else if (temp == "backspace" && display.mainDisplay.innerText != ``) {
+			equation.current = Math.floor(equation.current/10);
 		}
 
 		if (equation.equals == ``) {
 			display.mainDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current}`;
 		} else if (temp == "equals") {
-			let sol = operatorFunction[equation.operator](parseFloat(equation.prev), parseFloat(equation.current));
+			let sol = operatorFunction[equation.operator](
+				parseFloat(equation.prev),
+				parseFloat(equation.current),
+			);
 			display.smallDisplay.innerText = `${equation.prev} ${equation.operator} ${equation.current} =`;
-			display.mainDisplay.innerText = `${sol}`
+			display.mainDisplay.innerText = `${sol}`;
 			equation.current = sol;
 			equation.operator = ``;
 		} else {
